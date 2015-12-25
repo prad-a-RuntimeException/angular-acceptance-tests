@@ -7,7 +7,6 @@
   "author": "pradheep",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.4.8",
     "jquery": "^2.1.4",
     "promise": "^7.1.1"
   },
