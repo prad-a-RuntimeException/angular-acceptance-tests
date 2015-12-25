@@ -3,44 +3,57 @@ var testHelpers = require('../lib/test-helpers');
 module.exports = function() {
 
 
-    var app;
-    var root;
+  var app;
+  var root;
 
-    function init(AngularApp, components) {
-        this.root = $('<div></div>');
-        this.angularApp = new AngularApp(
-            this.root, {}, function($provide) {
-                setupStubs($provide, components);
-            });
-    }
+  function init(angularApp, components) {
+    root = $('<div></div>');
+    app = {
+      injector: null,
+      start: function() {
+        this.injector = angular.bootstrap(root, [angularApp]);
+      },
+      stop: function() {
 
-    function destroy() {
-        app.stop();
-        root.remove();
-    }
-
-
-    function setupStubs($provide, componentsToMock) {
-        function spy($delegate) {
-            Object.getOwnPropertyNames($delegate)
-                .filter(function(key) {
-                    return typeof ($delegate[key]) === 'function';
-                }).reduce(function(mem, curr) {
-                mem[curr] = $delegate[curr]; return mem;
-            }, {});
+        if (this.injector) {
+          var $rootScope = this.injector.get('$rootScope');
+          $rootScope.$destroy();
+        } else {
+          console.log('WARNING:', 'No App found to destroy');
         }
-        componentsToMock.forEach(function(component) {
-            $provide.decorator(component, spy);
-        });
-
-    }
-
-
-
-    return {
-        init: init,
-        run: testHelpers.run,
-        destroy: destroy
+      }
     };
+  }
+
+  function destroy() {
+    app.stop();
+    root.remove();
+  }
+
+
+  function setupStubs($provide, componentsToMock) {
+    function spy($delegate) {
+      Object.getOwnPropertyNames($delegate)
+        .filter(function(key) {
+          return typeof ($delegate[key]) === 'function';
+        }).reduce(function(mem, curr) {
+        mem[curr] = $delegate[curr]; return mem;
+      }, {});
+    }
+    componentsToMock.forEach(function(component) {
+      $provide.decorator(component, spy);
+    });
+
+  }
+
+  function run(fn) {
+    testHelpers(app, root)(fn);
+  }
+
+  return {
+    init: init,
+    run: run,
+    destroy: destroy
+  };
 
 };
