@@ -2,7 +2,7 @@
   "name": "angular-acceptance-tests",
   "version": "1.0.0",
   "description": "Ember style acceptance testing framework for angular.",
-  "main": "bin/index.js",
+  "main": "index.js",
   "scripts": {},
   "author": "pradheep",
   "license": "ISC",
@@ -10,5 +10,7 @@
     "jquery": "^2.1.4",
     "promise": "^7.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "rsvp": "^3.1.0"
+  }
 }
