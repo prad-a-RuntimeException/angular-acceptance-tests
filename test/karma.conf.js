@@ -1,10 +1,11 @@
-module.exports = function(config){
+var partialify = require('partialify');
+module.exports = function(config) {
   config.set({
-    basePath : './',
-    files : [
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
+    basePath: './',
+    files: [
+      'bower_components/angular/angular.js',
+      'bower_components/angular-route/angular-route.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       '../angular-acceptance-tests/index.js',
       '../angular-acceptance-tests/lib/*.js',
       'spec/*.js',
@@ -13,9 +14,9 @@ module.exports = function(config){
       'app/app.js',
       'app/*.html',
     ],
-    autoWatch : true,
+    autoWatch: true,
 
-    plugins : [
+    plugins: [
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
@@ -24,7 +25,8 @@ module.exports = function(config){
     ],
     frameworks: ['jasmine', 'browserify'],
     browserify: {
-      debug: true
+      debug: true,
+      tranform: ['partialify']
     },
     preprocessors: {
       'angular-acceptance-tests/**/*.js': ['browserify'],
@@ -32,6 +34,6 @@ module.exports = function(config){
     },
 
     logLevel: config.LOG_ERROR,
-    browsers : ['Chrome']
+    browsers: ['Chrome']
   });
 };
