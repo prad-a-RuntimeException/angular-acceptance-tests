@@ -7,9 +7,8 @@ describe('acceptance test', function() {
 
         return harness.run(function(){
             return this.andThen(function(){
-                console.log("Helloooooooo")
                 expect(true).toEqual(false);
-                harness.destroy();
+                harness.stop();
             });
         });
     });
