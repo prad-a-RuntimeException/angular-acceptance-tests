@@ -1,0 +1,10 @@
+node_modules
+
+# vim tmp files
+*.swp
+*.un~
+
+app/ngmin
+app/ngAnnotate
+app/dist
+.tern-port
