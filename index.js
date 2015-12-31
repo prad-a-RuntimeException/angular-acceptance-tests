@@ -3,16 +3,7 @@ var TestHelpers = require('./lib/test-helpers');
 module.exports = function(appName, appBootstrap, indexHtml) {
   window.location.hash = "";
 
-  var hooks = {
-    after: {
-      visit: function(root) {
-        return expect(root).to.be.accessible;
-      },
-      click: function(root) {
-        return expect(root).to.be.accessible;
-      }
-    }
-  };
+
 
   function init(root, testSpecificConfig) {
     return {
@@ -28,7 +19,7 @@ module.exports = function(appName, appBootstrap, indexHtml) {
     };
   }
 
-  return new TestHelpers(init, hooks);
+  return new TestHelpers(init);
 };
 
 
