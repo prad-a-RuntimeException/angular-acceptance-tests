@@ -33,16 +33,14 @@ var paths = {
  *   - no minification, does not start server.
  * - gulp watch:
  *   - starts server with live reload enabled
- *   - lints, unit tests, browserifies and live-reloads changes in browser
+ *   - lints, unit tests, acceptance tests, browserifies and live-reloads changes in browser
  *   - no minification
  * - gulp:
  *   - linting
  *   - unit tests
+ *   - acceptance tests
  *   - browserification
  *   - minification and browserification of minified sources
- *   - start server for e2e tests
- *   - run Protractor End-to-end tests
- *   - stop server immediately when e2e tests have finished
  *
  * At development time, you should usually just have 'gulp watch' running in the
  * background all the time. Use 'gulp' before releases.
@@ -153,20 +151,6 @@ gulp.task('server', ['browserify'], function() {
   });
 });
 
-gulp.task('e2e', ['server'], function() {
-  return gulp.src([paths.test + 'e2e/**/*.js'])
-    .pipe(gulpPlugins.protractor.protractor({
-      configFile: 'protractor.conf.js',
-      args: ['--baseUrl', 'http://127.0.0.1:8080'],
-    }))
-    .on('error', function(e) {
-      throw e;
-    })
-    .on('end', function() {
-      gulpPlugins.connect.serverClose();
-    });
-});
-
 gulp.task('watch', function() {
   gulp.start('server');
   gulp.watch([
@@ -182,5 +166,5 @@ gulp.task('fast', ['clean'], function() {
 
 gulp.task('default', ['clean'], function() {
   liveReload = false;
-  gulp.start('karma', 'browserify', 'browserify-min', 'e2e');
+  gulp.start('karma', 'browserify', 'browserify-min');
 });
